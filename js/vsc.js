@@ -32,6 +32,7 @@ function Environment() {
   this.acc = NaN;
   this.running = true;
   this.output = "";
+  this.commands = [];
   this.addresses = {};
 }
 
@@ -115,6 +116,7 @@ function processCommands(allCommands) {
     return error;
   }
   env = new Environment();
+  env.commands = allCommands;
   output = execCommands(allCommands);
   if (output === undefined || output == "") {
     output = env.output;
@@ -123,8 +125,6 @@ function processCommands(allCommands) {
 }
 
 function execCommands(allCommands) {
-  let output = "";
-
   for (let i = 0; i <= allCommands.length - 1; i++) {
     command = allCommands[i];
     if (env.running) {
@@ -207,8 +207,8 @@ function execCommands(allCommands) {
           }`;
           break;
         } else {
-          jmpIndex = findWithAttr(allCommands, "add", command.optOperand);
-          execCommands(allCommands.slice(jmpIndex, allCommands.length));
+          let jmpIndex = findWithAttr(env.commands, "add", command.optOperand);
+          execCommands(env.commands.slice(jmpIndex, env.commands.length));
         }
       } else if (command.insCode == 9) {
         //jmp to a if acc is negative
@@ -220,9 +220,13 @@ function execCommands(allCommands) {
           }`;
           break;
         } else {
-          jmpIndex = findWithAttr(allCommands, "add", command.optOperand);
           if (env.acc < 0) {
-            execCommands(allCommands.slice(jmpIndex, allCommands.length));
+            let jmpIndex = findWithAttr(
+              env.commands,
+              "add",
+              command.optOperand
+            );
+            execCommands(env.commands.slice(jmpIndex, env.commands.length));
           }
         }
       } else if (command.insCode == 10) {
@@ -235,9 +239,13 @@ function execCommands(allCommands) {
           }`;
           break;
         } else {
-          jmpIndex = findWithAttr(allCommands, "add", command.optOperand);
           if (env.acc == 0) {
-            execCommands(allCommands.slice(jmpIndex, allCommands.length));
+            let jmpIndex = findWithAttr(
+              env.commands,
+              "add",
+              command.optOperand
+            );
+            execCommands(env.commands.slice(jmpIndex, env.commands.length));
           } else {
             continue;
           }
@@ -252,9 +260,15 @@ function execCommands(allCommands) {
           }`;
           break;
         } else {
-          jmpIndex = findWithAttr(allCommands, "add", command.optOperand);
           if (env.acc > 0) {
-            execCommands(allCommands.slice(jmpIndex, allCommands.length));
+            let jmpIndex = findWithAttr(
+              env.commands,
+              "add",
+              command.optOperand
+            );
+            execCommands(env.commands.slice(jmpIndex, env.commands.length));
+          } else {
+            continue;
           }
         }
       } else if (command.insCode == 12) {

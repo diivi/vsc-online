@@ -6,3 +6,4 @@
 # single quote string load
 # string with space
 # jmp index is wrong
+# without space comments
