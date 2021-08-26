@@ -51,3 +51,10 @@ body {
   border: none;
   outline: none;
 } */
+.row {
+  display: flex;
+  justify-content: space-around;
+}
+.sample pre {
+  height: auto;
+}

@@ -94,7 +94,7 @@ $(document).ready(function () {
     const code = $("#input").val();
     commands = code.split("\n");
     allCommands = splitCommands(commands);
-    output = processCommands(allCommands);
+    var output = processCommands(allCommands);
     $("#output").val(output);
   });
 });
@@ -122,6 +122,8 @@ function processCommands(allCommands) {
 }
 
 function execCommands(allCommands) {
+  let output = "";
+
   for (let i = 0; i <= allCommands.length - 1; i++) {
     command = allCommands[i];
     if (env.running) {
