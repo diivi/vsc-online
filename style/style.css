@@ -1,13 +1,13 @@
-/* html,
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 body {
-  margin: 0px;
-  padding: 0px;
+  background: #03071e;
+  font-family: "Open Sans", sans-serif;
+  color: white;
 }
-body {
-  background: #4a90e2;
-  height: 100vh;
+img {
+  border-radius: 0px;
 }
-
+/*
 .input,
 .output {
   width: 40%;
@@ -33,6 +33,11 @@ body {
   outline: none;
 }
 
+
+#output:focus {
+  border: none;
+  outline: none;
+} */
 #output {
   display: block;
   overflow: hidden;
@@ -40,21 +45,33 @@ body {
   resize: none;
   padding: 10px;
   height: 100%;
-  width: 100%;
+  width: 25%;
   font-size: 14px;
   margin: 50px auto;
   border-radius: 6px;
   box-shadow: 2px 2px 8px rgba(black, 0.3);
   border: 0;
 }
-#output:focus {
-  border: none;
-  outline: none;
-} */
 .row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+.sample {
+  padding: 2%;
+  margin: 0% 1%;
 }
 .sample pre {
   height: auto;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #03071e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 10px;
 }
