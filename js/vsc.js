@@ -116,7 +116,7 @@ function processCommands(allCommands) {
   }
   env = new Environment();
   output = execCommands(allCommands);
-  if (output === undefined) {
+  if (output === undefined || output == "") {
     output = env.output;
   }
   return output;
