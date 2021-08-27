@@ -1,9 +1,5 @@
 # add line start comment support
 # decimal numbers as address invalid 
 # faltu operand warning
-# if to elseif
-# break if error
 # single quote string load
-# string with space
-# jmp index is wrong
 # without space comments

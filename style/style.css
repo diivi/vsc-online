@@ -40,7 +40,6 @@ img {
 } */
 #output {
   display: block;
-  overflow: hidden;
 
   resize: none;
   padding: 10px;
@@ -73,5 +72,10 @@ img {
 
 ::-webkit-scrollbar-thumb {
   background: white;
+  border-radius: 10px;
+}
+
+#output::-webkit-scrollbar-thumb {
+  background: grey;
   border-radius: 10px;
 }
