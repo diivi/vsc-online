@@ -26,7 +26,6 @@ insCodes = {
   14: "out",
   15: "outl",
 };
-output = "";
 //enviroment class that stores the accumulator and program counter
 function Environment() {
   this.acc = NaN;
@@ -96,8 +95,8 @@ $(document).ready(function () {
     const code = editor.getValue();
     commands = code.split("\n");
     allCommands = splitCommands(commands);
-    var output = processCommands(allCommands);
-    $("#output").val(output);
+    var out = processCommands(allCommands);
+    $("#output").val(out);
   });
 });
 
@@ -116,12 +115,8 @@ function processCommands(allCommands) {
     return error;
   }
   env = new Environment();
-  env.commands = allCommands;
-  output = execCommands(allCommands);
-  if (output === undefined || output == "") {
-    output = env.output;
-  }
-  return output;
+  env.commands = allCommands 
+  return execCommands(allCommands);
 }
 
 function execCommands(allCommands) {
@@ -131,12 +126,11 @@ function execCommands(allCommands) {
       if (command.insCode == 0) {
         //end
         env.running = false;
-        env.output = output;
-        return;
+        return env.output;
       } else if (command.insCode == 2) {
         //load acc with data from mem address
         if (!checkAddressValidity(command.optOperand)) {
-          output = `Address ${
+         env.output = `Address ${
             command.optOperand
           } is either invalid or does not exist.  line : ${allCommands.indexOf(
             command
@@ -149,7 +143,7 @@ function execCommands(allCommands) {
         if (!isNaN(command.optOperand)) {
           env.acc = parseInt(command.optOperand);
         } else {
-          output = `Please enter a valid number for the accumulator to be loaded with. line : ${
+         env.output = `Please enter a valid number for the accumulator to be loaded with. line : ${
             allCommands.indexOf(command) + 1
           }`;
         }
@@ -160,7 +154,7 @@ function execCommands(allCommands) {
       } else if (command.insCode == 5) {
         //store acc at address
         if (env.acc === undefined) {
-          output = `Accumulator uninitialised but used at line ${
+         env.output = `Accumulator uninitialised but used at line ${
             allCommands.indexOf(command) + 1
           }`;
         }
@@ -169,7 +163,7 @@ function execCommands(allCommands) {
           if (command.optOperand in env.addresses) {
             env.addresses[command.optOperand] = env.acc;
           } else {
-            output = `Address ${
+           env.output = `Address ${
               command.optOperand
             } is either invalid or does not exist.  line : ${
               allCommands.indexOf(command) + 1
@@ -181,12 +175,12 @@ function execCommands(allCommands) {
       } else if (command.insCode == 6) {
         // add to acc by address
         if (env.acc === undefined) {
-          output = `Accumulator uninitialised but used at line ${
+         env.output = `Accumulator uninitialised but used at line ${
             allCommands.indexOf(command) + 1
           }`;
         }
         if (!checkAddressValidity(command.optOperand)) {
-          output = `Address ${
+         env.output = `Address ${
             command.optOperand
           } is either invalid or does not exist.  line : ${
             allCommands.indexOf(command) + 1
@@ -200,7 +194,7 @@ function execCommands(allCommands) {
       } else if (command.insCode == 8) {
         //jmp to address after checking its validity
         if (!checkAddValidity(command.optOperand)) {
-          output = `Address ${
+         env.output = `Address ${
             command.optOperand
           } can't be jumped to as it is either invalid or does not exist.  line : ${
             allCommands.indexOf(command) + 1
@@ -213,7 +207,7 @@ function execCommands(allCommands) {
       } else if (command.insCode == 9) {
         //jmp to a if acc is negative
         if (!checkAddValidity(command.optOperand)) {
-          output = `Address ${
+         env.output = `Address ${
             command.optOperand
           } can't be jumped to as it is either invalid or does not exist.  line : ${
             allCommands.indexOf(command) + 1
@@ -232,7 +226,7 @@ function execCommands(allCommands) {
       } else if (command.insCode == 10) {
         //jmp to a if acc is 0
         if (!checkAddValidity(command.optOperand)) {
-          output = `Address ${
+         env.output = `Address ${
             command.optOperand
           } can't be jumped to as it is either invalid or does not exist.  line : ${
             allCommands.indexOf(command) + 1
@@ -253,7 +247,7 @@ function execCommands(allCommands) {
       } else if (command.insCode == 11) {
         //jmp to a if acc is positive
         if (!checkAddValidity(command.optOperand)) {
-          output = `Address ${
+         env.output = `Address ${
             command.optOperand
           } can't be jumped to as it is either invalid or does not exist.  line : ${
             allCommands.indexOf(command) + 1
@@ -283,15 +277,15 @@ function execCommands(allCommands) {
         );
       } else if (command.insCode == 14) {
         //acc out
-        output += `${env.acc}`;
+       env.output += `${env.acc}`;
       } else if (command.insCode == 15) {
-        output += "\n";
+       env.output += "\n";
       }
     } else {
       break;
     }
   }
-  return output;
+  return env.output;
 }
 
 function checkAddressAvailability(address) {
