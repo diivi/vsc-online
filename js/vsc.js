@@ -138,6 +138,8 @@ $(document).ready(function () {
     var out = processCommands(allCommands);
     if (out.startsWith("Error:")) {
       $("#output").css("color", "red");
+    } else {
+      $("#output").removeAttr("style");
     }
     $("#output").val(out);
   });
@@ -158,6 +160,7 @@ function processCommands(allCommands) {
     return error;
   }
   env = new Environment();
+  env.output = "";
   env.commands = allCommands;
   return execCommands(allCommands);
 }
